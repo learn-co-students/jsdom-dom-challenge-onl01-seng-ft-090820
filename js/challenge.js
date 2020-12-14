@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         counter++;
         counter = counter.toString()
         document.querySelector('h1#counter').innerText = counter
-        
 
         likes = 0
     };
@@ -63,16 +62,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     heart.addEventListener('click', () => {
         // console.log("Heart has been clicked")
+        // let found = false
+        let lis = document.querySelectorAll('li')
+        let lastLike
+        lis.forEach( l => {
+            let li_split = l.innerText.split(" ")
+            if (li_split[0] === counter) {
+                likes = parseInt(li_split[4])
+                lastLike = l
+            } 
+        } )
         likes++;
+        
         li = document.createElement('li');
         let text = document.createTextNode(`${counter} has been liked ${likes} time(s).`)
-        let hearts = document.querySelector('ul.likes');
-        let lastLike = hearts.lastChild
+        let ul = document.querySelector('ul.likes');
         li.appendChild(text);
         if (likes > 1) {
             lastLike.replaceWith(li)
         } else {
-            hearts.appendChild(li)
+            ul.appendChild(li)
         }
     })
 
