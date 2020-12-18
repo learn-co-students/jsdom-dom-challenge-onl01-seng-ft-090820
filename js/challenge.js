@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let counter = document.querySelector('h1#counter').innerText;
     let form = document.querySelector('form#comment-form')
     let heart = document.querySelector('button#heart');
-    let li = document.createElement('li');
+    // let li = document.createElement('li');
     let input = document.querySelector('input');
     let likes = 0;
     let minus = document.querySelector('button#minus');
@@ -21,9 +21,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function myCounter() {
         parseInt(counter);
         counter++;
-        counter = counter.toString()
         document.querySelector('h1#counter').innerText = counter
-        likes = 0
+        // likes = 0
     };
 
     minus.addEventListener('click', () => {
@@ -56,17 +55,26 @@ document.addEventListener("DOMContentLoaded", (event) => {
     })
 
     heart.addEventListener('click', () => {
-        likes++;
-        li = document.createElement('li');
-        let text = document.createTextNode(`${counter} has been liked ${likes} time(s).`)
+        let found = false
+        let li 
+        let lis = document.querySelectorAll('li')
+        lis.forEach(l => {
+            let liNum = parseInt(l.innerText.split(" ")[0])
+            if (liNum == parseInt(counter)) {
+                li = l
+                found = true
+            } 
+        })
         let hearts = document.querySelector('ul.likes');
-        let lastLike = hearts.lastChild
-        li.appendChild(text);
-        if (likes > 1) {
-            lastLike.replaceWith(li)
+        if (found) {
+            let likes = parseInt(li.innerText.split(" ")[4])
+            li.innerText = `${parseInt(li.innerText.split(" ")[0])} has been liked ${++likes} time(s).`
         } else {
+            li = document.createElement('li');
+            li.innerText = `${counter} has been liked 1 time(s).`
             hearts.appendChild(li)
         }
+
     })
 
     form.addEventListener("submit", event => {
